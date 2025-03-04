@@ -60,7 +60,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-gray-600"
                                     viewBox="0 0 20 20" fill="currentColor">
                                     <path
-                                        d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                                        d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.660.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                                 </svg>
                                 <span>6 voyageurs max</span>
                             </span>
@@ -131,7 +131,7 @@
                     <div class="p-6">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">Équipements</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4">
-                            <?php $equipements = explode(',', $annonce->equipements) ?>
+                            <?php $equipements = explode(',', $annonce->equipements); ?>
                             @foreach ($equipements as $equip)
                                 <div class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2"
@@ -219,7 +219,8 @@
             <div class="w-full lg:w-1/3 px-4">
                 <!-- Tarifs et réservation -->
                 <div class="bg-white shadow-md rounded-lg overflow-hidden mb-8 sticky top-4">
-                    <div class="p-6">
+                    <form class="p-6" action="{{ route('reservations.store', $annonce) }}" method="POST">
+                        @csrf
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">Tarifs</h2>
                         <div class="flex justify-between items-center mb-6">
                             <span class="text-3xl font-bold text-gray-700" x-text="hebergement.prix + ' MAD'"></span>
@@ -229,46 +230,60 @@
                         <div class="mb-6">
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-medium mb-2">Arrivée</label>
-                                    <input type="date"
+                                    <label for="start_date"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Arrivée</label>
+                                    <input type="text" name="start_date" id="start_date" placeholder="Pick your start date"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent">
+                                    <span class="text-red-600">
+                                        @error('start_date')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-medium mb-2">Départ</label>
-                                    <input type="date"
+                                    <label for="end_date"
+                                        class="block text-gray-700 text-sm font-medium mb-2">Départ</label>
+                                    <input type="text" name="end_date" id="end_date" placeholder="Pick your end date"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent">
+                                    <span class="text-red-600">
+                                        @error('end_date')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
                                 </div>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 text-sm font-medium mb-2">Voyageurs</label>
-                                <select
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent">
-                                    <option>1 voyageur</option>
-                                    <option>2 voyageurs</option>
-                                    <option>3 voyageurs</option>
-                                    <option>4 voyageurs</option>
-                                    <option>5 voyageurs</option>
-                                    <option>6 voyageurs</option>
-                                </select>
                             </div>
                         </div>
 
-                        <button
+                        <button type="submit"
                             class="w-full py-3 bg-gray-800 hover:bg-gray-800 text-white rounded-lg shadow font-medium transition">
                             Réserver maintenant
                         </button>
 
+                        @session('success')
+                            <span class="text-green-600 bg-green-50"> {{ session('success') }} </span>
+                        @endsession
+
+                        <span class="text-red-600">
+                            @error('status')
+                                {{ $message }}
+                            @enderror
+                        </span>
+
                         <div class="mt-6 border-t border-gray-200 pt-4">
-                            <div class="flex justify-between mb-2">
-                                <span class="text-gray-600">999.99 MAD x 3 nuits</span>
-                                <span class="text-gray-800 font-medium">2,999.97 MAD</span>
-                            </div>
-                            <div class="flex justify-between font-bold text-lg border-t border-gray-200 pt-4 mt-4">
-                                <span>Total</span>
-                                <span>3,699.97 MAD</span>
-                            </div>
+                            <template x-if="startDate && endDate">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-gray-600" x-text="`${hebergement.prix} MAD x ${nights} nuits`"></span>
+                                        <span class="text-gray-800 font-medium" x-text="`${totalPrice} MAD`"></span>
+                                    </div>
+                                    <div class="flex justify-between font-bold text-lg border-t border-gray-200 pt-4 mt-4">
+                                        <span>Total</span>
+                                        <span x-text="`${totalPrice + serviceFee} MAD`"></span>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
                 <!-- Hôte -->
@@ -307,6 +322,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         function hebergementDetails() {
             return {
@@ -340,7 +356,39 @@
                         year: 'numeric'
                     });
                 },
+                initFlatpickr() {
+                    const unavailableDates = @json($annonce->reservations->map(function($reservation) {
+                        return [
+                            'from' => $reservation->start_date,
+                            'to' => $reservation->end_date
+                        ];
+                    }));
+
+                    flatpickr("#start_date", {
+                        minDate: "today",
+                        disable: unavailableDates,
+                        dateFormat: "Y-m-d",
+                        onChange: function(selectedDates, dateStr, instance) {
+                            const endDatePicker = document.getElementById('end_date')._flatpickr;
+                            endDatePicker.set('minDate', dateStr);
+                        }
+                    });
+
+                    flatpickr("#end_date", {
+                        minDate: "today",
+                        disable: unavailableDates,
+                        dateFormat: "Y-m-d",
+                    });
+                }
             };
         }
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('hebergementDetails', hebergementDetails);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            hebergementDetails().initFlatpickr();
+        });
     </script>
 </x-app>
