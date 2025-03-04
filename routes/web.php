@@ -5,7 +5,9 @@ use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,11 +54,22 @@ Route::middleware('auth')->group(function () {
         Route::post('annonces', [AnnonceController::class, 'store'])->name('annonces.store');
         Route::get('my-annonces/{id}/edit', [AnnonceController::class, 'edit'])->name('my-annonces.edit');
         Route::put('my-annonces/{id}', [AnnonceController::class, 'update'])->name('my-annonces.update');
+        Route::get('my-reservations', [ReservationController::class, 'manage'])->name('reservations.manage');
     });
 
     // touriste possibles routes
     Route::middleware('isTouriste')->group(function () {
         Route::get('favoris', [FavorisController::class, 'index'])->name('favoris.index');
         Route::post('favoris/{annonce}', [FavorisController::class, 'store'])->name('favoris.store');
+
+        Route::post('/reservations/{annonce}', [ReservationController::class, 'store'])->name('reservations.store');
+        Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+        // Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
     });
+
+    Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+    Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
+    Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+
 });
