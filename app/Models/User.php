@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->favoris()->where('annonce_id', $annonce->id)->exists();
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }
