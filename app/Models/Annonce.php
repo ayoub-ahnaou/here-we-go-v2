@@ -64,4 +64,9 @@ class Annonce extends Model
         return $searchQuery->orderBy('created_at', 'desc')
             ->paginate(12);
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }
