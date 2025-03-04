@@ -73,10 +73,9 @@ class AnnonceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        $annonce = Annonce::where([['is_archived', false], ['id', $id]])->get();
-        $annonce = $annonce[0];
+        $annonce = Annonce::with('category', 'user', 'reservations')->findOrFail($id);
         return view('annonces.show', compact('annonce'));
     }
 
