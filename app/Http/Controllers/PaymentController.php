@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as CheckoutSession;
 use App\Models\Reservation;
+use App\Notifications\ReservationCreated;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
@@ -59,6 +60,9 @@ class PaymentController extends Controller
             'end_date' => $end_date,
             'price_total' => $total_price,
         ]);
+
+        $user = $annonce->user;
+        $user->notify(new ReservationCreated($annonce));
 
         return redirect()->route('reservations.index')->with('success', 'Payment successful and reservation stored.');
     }
