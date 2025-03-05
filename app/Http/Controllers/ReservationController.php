@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use App\Models\Reservation;
-use App\Notifications\NewReservationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -46,8 +45,8 @@ class ReservationController extends Controller
             ]);
 
             // Send notification to the proprietaire
-            $proprietaire = $reservation->annonce->user;
-            $proprietaire->notify(new NewReservationNotification($reservation));
+            // $proprietaire = $reservation->annonce->user;
+            // $proprietaire->notify(new NewReservationNotification($reservation));
 
             return response()->json(['success' => true]);
         } catch (ApiErrorException $e) {
