@@ -117,6 +117,94 @@
                     pieConfig
                 );
             </script>
+
+            <div class="flex items-center justify-between w-full gap-2 mt-6">
+                <!-- Reservations Over Time Chart -->
+                <div class="chart-container bg-white p-6 rounded-lg w-1/2">
+                    <h2 class="text-xl font-semibold mb-4">Reservations Over Time</h2>
+                    <canvas id="reservationsChart"></canvas>
+                </div>
+
+                <!-- Revenue Over Time Chart -->
+                <div class="chart-container bg-white p-6 rounded-lg w-1/2">
+                    <h2 class="text-xl font-semibold mb-4">Revenue Over Time</h2>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <script>
+                // Pass PHP data to JavaScript
+                const dates = @json($dates);
+                const reservationsData = @json($reservationsCount);
+                const revenueData = @json($revenue);
+
+                // Render Reservations Chart
+                const reservationsCtx = document.getElementById('reservationsChart').getContext('2d');
+                new Chart(reservationsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'Number of Reservations',
+                            data: reservationsData,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderWidth: 2,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Reservations'
+                                },
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                // Render Revenue Chart
+                const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+                new Chart(revenueCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'Revenue ($)',
+                            data: revenueData,
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Revenue ($)'
+                                },
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
         </div>
     </div>
 </x-dashboard>
