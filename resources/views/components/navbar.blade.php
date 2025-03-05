@@ -6,29 +6,24 @@
         </a>
 
         <ul class="text-xs flex items-center h-full">
-            {{-- @auth
-                <li class="relative group h-full">
-                    <div class="flex items-center gap-1 hover:bg-gray-200 h-full px-2 cursor-pointer">
-                        <!-- <img src="./imgs/profile.svg" class="size-5" alt="" /> -->
-                        <span class="font-medium pl-1">HÉBERGEMENT</span>
-                        <img src="{{ URL('assets/icons/chevron-down.svg') }}"
-                            class="size-4 group-hover:rotate-180 transition-transform" alt="" />
+            @auth
+                @if (Auth::user()->role_id === 2)
+                    <div class="relative group h-full">
+                        <a href="{{ route('notifications.index') }}"
+                            class="flex items-center gap-1 hover:bg-gray-200 h-full px-2 cursor-pointer">
+                            <svg class="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span>Notifications</span>
+                            @if (Auth::user()->unreadNotifications->count() > 0)
+                                <span class="absolute top-2 left-6 inline-block w-2 h-2 bg-red-600 rounded-full"></span>
+                            @endif
+                        </a>
                     </div>
-
-                    <!-- Dropdown Menu -->
-                    <div
-                        class="absolute right-0 hidden group-hover:block w-64 bg-white border border-gray-200 rounded-md shadow-lg py-2 mt-1">
-                        <!-- Host Section -->
-                        <div class="border-b border-gray-100">
-                            <a href="" class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Devenir un
-                                hôte</a>
-                            <a href="" class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Mes
-                                propriétés</a>
-                            <a href="" class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Mes hôtes</a>
-                        </div>
-                    </div>
-                </li>
-            @endauth --}}
+                @endif
+            @endauth
 
             <li class="relative group h-full">
                 <div class="flex items-center gap-1 hover:bg-gray-200 h-full px-2 cursor-pointer relative">
@@ -63,8 +58,14 @@
                                 <a href="{{ route('annonces.myannonces') }}"
                                     class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Mes
                                     annonces</a>
+
+                                <a href="{{ route('reservations.manage') }}"
+                                    class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">
+                                    Manage Reservations
+                                </a>
                             @elseif (Auth::user()->role_id == 3)
-                                <a href="" class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Mes
+                                <a href="{{ route('reservations.index') }}"
+                                    class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Mes
                                     réservations</a>
                                 <a href="{{ route('favoris.index') }}"
                                     class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Mes
@@ -77,7 +78,7 @@
                     @auth
                         @if (Auth::user()->role_id === 1)
                             <a href="{{ route('dashboard') }}"
-                                class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Dachboard</a>
+                                class="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-50">Dashboard</a>
                         @endif
                     @endauth
 
