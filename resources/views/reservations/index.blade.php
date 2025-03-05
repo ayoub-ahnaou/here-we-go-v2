@@ -26,6 +26,7 @@
                         <th class="text-left py-2 px-4 border-b border-gray-200">End Date</th>
                         <th class="text-left py-2 px-4 border-b border-gray-200">Total Price</th>
                         <th class="text-left py-2 px-4 border-b border-gray-200">Reserved at</th>
+                        <th class="text-left py-2 px-4 border-b border-gray-200">Facture</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +49,24 @@
                             <td class="py-2 px-4 border-b border-gray-200">{{ $reservation->price_total }} MAD</td>
                             <td class="py-2 px-4 border-b border-gray-200">
                                 {{ $reservation->created_at->diffForHumans() }}</td>
+                            <td class="py-2 px-4 border-b border-gray-200">
+                                <a href="{{ route('facture.index', $reservation) }}" class="flex items-center group">
+                                    <svg viewBox="0 0 24 24" class="size-4" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <g id="Interface / Download">
+                                                <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12"
+                                                    stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                    <span class="group-hover:underline">Download</span>
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -55,3 +74,4 @@
         </div>
     </div>
 </x-app>
+{{-- TODO: add button to download pdf --}}

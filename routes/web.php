@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -65,13 +66,14 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/reservations/{annonce}', [ReservationController::class, 'store'])->name('reservations.store');
         Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-        // Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
+        
+        Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+        Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
+        Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+        Route::get('/payment/cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+    
+        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+        Route::get('/facture/pdf/{reservation}', [PDFController::class, 'index'])->name("facture.index");
     });
-
-    Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
-    Route::post('/payment', [PaymentController::class, 'processPayment'])->name('payment.process');
-    Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
-    Route::get('/payment/cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
-
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });
