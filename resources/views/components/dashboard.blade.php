@@ -14,7 +14,7 @@
     <div class="flex flex-col justify-between min-h-screen">
         <main class="flex-grow w-full">
             <div class="flex flex-col md:flex-row min-h-screen">
-                <div class="bg-white shadow-md w-full md:w-64 min-h-screen flex flex-col">
+                <div class="bg-white shadow-md w-full md:w-64 h-screen flex flex-col">
                     <div class="p-4 border-b border-gray-200">
                         <div class="flex items-center justify-between">
                             <a href="{{ route('welcome') }}" class="flex items-center gap-1">
@@ -61,6 +61,12 @@
                                     Corbeille
                                 </a>
                             </li>
+                            <li class="mb-1">
+                                <a href="{{ route('reservations.listReservations') }}"
+                                    class="block px-4 py-2 {{ request()->routeIs('reservations.listReservations') ? ' text-gray-800 font-medium bg-gray-100' : ' text-gray-600 hover:bg-gray-100' }}">
+                                    Reservations
+                                </a>
+                            </li>
                         </ul>
 
                         <ul>
@@ -88,7 +94,7 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="flex-1 p-4">
+                <div class="flex-1 p-4 h-screen overflow-x-auto">
                     {{ $slot }}
                 </div>
             </div>
