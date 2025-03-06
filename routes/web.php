@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
         Route::get('users', [UserController::class, 'index'])->name('users.index');
         Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
         Route::get('corbeille', [AnnonceController::class, 'corbeille'])->name('annonces.corbeille');
+
+        Route::get('listReservations', [ReservationController::class, 'listReservations'])->name('reservations.listReservations');
     });
 
     // routes possibles for proprietaire
