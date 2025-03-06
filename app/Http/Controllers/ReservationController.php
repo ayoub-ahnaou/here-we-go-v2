@@ -134,4 +134,10 @@ class ReservationController extends Controller
         $annonces = $user->annonces()->with('reservations.user')->get();
         return view('reservations.manage', compact('annonces'));
     }
+
+    public function listReservations()
+    {
+        $reservations = Reservation::all();
+        return view('admin.reservations.index', compact("reservations"));
+    }
 }
