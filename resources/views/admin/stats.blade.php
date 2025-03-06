@@ -8,18 +8,22 @@
         <div class="overflow-x-auto">
 
             <!-- Afficher des informations -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-semibold">Nombre d'annonces</h2>
-                    <p class="text-3xl">{{ $annoncesCount }}</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8 text-gray-700">
+                <div class="bg-white p-6 rounded-lg shadow-md flex items-center gap-1">
+                    <p class="text-lg">{{ $annoncesCount }}</p>
+                    <h2 class="text-sm font-semibold">annonces</h2>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-semibold">Nombre d'utilisateurs</h2>
-                    <p class="text-3xl">{{ $usersCount }}</p>
+                <div class="bg-white p-6 rounded-lg shadow-md flex items-center gap-1">
+                    <p class="text-lg">{{ $usersCount }}</p>
+                    <h2 class="text-sm font-semibold">utilisateurs</h2>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-semibold">Nombre de catégories</h2>
-                    <p class="text-3xl">{{ $categoriesCount }}</p>
+                <div class="bg-white p-6 rounded-lg shadow-md flex items-center gap-1">
+                    <p class="text-lg">{{ $categoriesCount }}</p>
+                    <h2 class="text-sm font-semibold">catégories</h2>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md flex items-center gap-1">
+                    <p class="text-lg">{{ $reservations }}</p>
+                    <h2 class="text-sm font-semibold">reservations</h2>
                 </div>
             </div>
 
