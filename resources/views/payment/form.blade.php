@@ -11,7 +11,7 @@
             <input type="hidden" name="total_price" value="{{ $total_price }}">
             <button type="submit"
                 class="w-full py-3 bg-gray-800 hover:bg-gray-800 text-white rounded-lg shadow font-medium transition">
-                Pay {{ number_format($annonce->price, 2, ',', ' ') }} MAD
+                Pay {{ number_format($annonce->total_price, 2, ',', ' ') }} MAD
             </button>
         </form>
     </div>
