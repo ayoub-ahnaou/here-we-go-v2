@@ -17,6 +17,7 @@ class AdminController extends Controller
         $usersCount = User::count();
         $categoriesCount = Category::count();
         $annoncesByCategory = Category::withCount('annonces')->get();
+        $reservations = Reservation::count();
 
         // New: Fetch reservation and revenue data
         $reservationsData = Reservation::select(
@@ -43,6 +44,7 @@ class AdminController extends Controller
             'annoncesCount',
             'usersCount',
             'categoriesCount',
+            'reservations',
             'annoncesByCategory',
             'dates',
             'reservationsCount',
